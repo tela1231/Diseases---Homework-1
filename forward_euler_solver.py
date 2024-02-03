@@ -3,17 +3,18 @@ matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 
 def forward_euler(f, I, R, y0, I0, t0, tn, h):
+    ##define values for T S I and R
     t_values = [t0]
     y_values = [y0]
     I_values = [I0]
     R_values = [0]
 
     while t_values[-1] < tn:
-        t_n = t_values[-1] + h
-        y_n = y_values[-1] + h * f(t_values[-1], y_values[-1], I_values[-1])
+        t_n = t_values[-1] + h ##incriment by h
+        y_n = y_values[-1] + h * f(t_values[-1], y_values[-1], I_values[-1]) ##use eulers
         I_n = I_values[-1] + h * I(t_values[-1], y_values[-1], I_values[-1])
         R_n = R_values[-1] + h * R(t_values[-1], I_values[-1])
-        t_values.append(t_n)
+        t_values.append(t_n) ##store values
         y_values.append(y_n)
         I_values.append(I_n)
         R_values.append(R_n)
@@ -23,7 +24,7 @@ def forward_euler(f, I, R, y0, I0, t0, tn, h):
     return t_values, y_values, I_values, R_values
 
 
-
+##S I and R functions
 def S_dot(t, S, I):
     B = 2
     N = 1000
@@ -43,6 +44,7 @@ def R_dot(t, I):
 
 
 if __name__ == "__main__":
+    ##define int variables
     S0 = 999
     N = 1000
     t0 = 0
@@ -50,10 +52,11 @@ if __name__ == "__main__":
     h = .1
     I0 = 1
 
-
+    ##use function
     graph_values = forward_euler(S_dot, I_dot, R_dot, S0, I0, 0, 50, h)
 
     out_file = "S Plot"
+    ##store values
     t_values, S_values, I_values, R_values = graph_values
 
     plt.plot(t_values, S_values)
